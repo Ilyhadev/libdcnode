@@ -132,7 +132,7 @@ int16_t uavcanInitApplication(ParamsApi params_api, PlatformApi platform_api, co
     uavcanSubscribe(UAVCAN_PROTOCOL_RESTART_NODE,        uavcanProtocolRestartNodeHandle);
     uavcanSubscribe(UAVCAN_PROTOCOL_GET_TRANSPORT_STATS, uavcanProtocolGetTransportStatHandle);
     uavcanSubscribe(UAVCAN_PROTOCOL_NODE_STATUS,         uavcanProtocolNodeStatusHandle);
-
+    
     return 0;
 }
 
