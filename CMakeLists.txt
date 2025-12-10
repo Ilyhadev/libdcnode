@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include
+            ${CMAKE_CURRENT_LIST_DIR}/Libs/libcanard_v0
            ${CMAKE_CURRENT_LIST_DIR}/Libs
 )
 target_compile_options(${PROJECT_NAME} PRIVATE

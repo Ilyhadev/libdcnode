@@ -31,6 +31,7 @@
 #include "dronecan/sensors/hygrometer/Hygrometer.h"
 #include "libdcnode/uavcan/equipment/indication/LightsCommand.h"
 #include "libdcnode/uavcan/equipment/range_sensor/Measurement.h"
+#include "libdcnode/uavcan/com/rl/vibration/Measurement.h"
 
 extern PlatformApi platform;
 
@@ -66,7 +67,8 @@ DEFINE_PUBLISHER_TRAITS(Hygrometer,         dronecan_sensors_hygrometer_hygromet
 DEFINE_PUBLISHER_TRAITS(LightsCommand_t,    dronecan_equipment_indication_lights_command_publish)
 DEFINE_PUBLISHER_TRAITS(RangeSensorMeasurement_t,
                                             dronecan_equipment_range_sensor_measurement_publish)
-
+DEFINE_PUBLISHER_TRAITS(VibrationMeasurement_t,
+                        dronecan_com_rl_vibration_measurement_publish)
 
 template <typename MessageType>
 class DronecanPublisher {
