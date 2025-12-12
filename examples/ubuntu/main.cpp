@@ -32,34 +32,6 @@
 #undef UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_SIGNATURE
 #include "libdcnode/pub.hpp"
 
-#ifndef GIT_HASH
-    #warning "GIT_HASH has been assigned to 0 by default."
-    #define GIT_HASH            (uint64_t)0
-#endif
-
-#ifndef APP_NODE_NAME
-    #define APP_NODE_NAME       (char*)"default"
-#endif
-
-#ifndef APP_VERSION_MAJOR
-    #warning "APP_VERSION_MAJOR has been assigned to 0 by default."
-    #define APP_VERSION_MAJOR   0
-#endif
-
-#ifndef APP_VERSION_MINOR
-    #warning "APP_VERSION_MINOR has been assigned to 0 by default."
-    #define APP_VERSION_MINOR   0
-#endif
-
-#ifndef HW_VERSION_MAJOR
-    #warning "HW_VERSION_MAJOR has been assigned to 0 by default."
-    #define HW_VERSION_MAJOR    0
-#endif
-
-#ifndef HW_VERSION_MINOR
-    #warning "HW_VERSION_MINOR has been assigned to 0 by default."
-    #define HW_VERSION_MINOR    0
-#endif
 
 IntegerDesc_t __attribute__((weak)) integer_desc_pool[] = {
     {"uavcan.node.id", 0, 100, 50, true, false},
@@ -219,6 +191,8 @@ int main() {
     libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
 
     while (platformSpecificGetTimeMs() < 50000) {
+        circuit_status.msg.voltage = 5.0;
+        battery_info.msg.voltage = 5.1;
         circuit_status.spinOnce();
         battery_info.spinOnce();
         uavcanSpinOnce();
