@@ -15,34 +15,23 @@
 #include "libdcnode/subscriber.hpp"
 #include "libdcnode/publisher.hpp"
 
-#ifndef GIT_HASH
-    #warning "GIT_HASH has been assigned to 0 by default."
-    #define GIT_HASH            (uint64_t)0
-#endif
+// Hack
+// It's ok to keep some undefs for now, but maybe there is a better solution;
+// This hack won't be necessary after removing legacy serialization
+#undef UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ACTUATOR_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_AHRS_SOLUTION_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_HARDPOINT_COMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ESC_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_GNSS_FIX2_SIGNATURE
+#undef UAVCAN_EQUIPMENT_HARDPOINT_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ICE_RECIPROCATING_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_SIGNATURE
+#include "libdcnode/pub.hpp"
 
-#ifndef APP_NODE_NAME
-    #define APP_NODE_NAME       (char*)"default"
-#endif
-
-#ifndef APP_VERSION_MAJOR
-    #warning "APP_VERSION_MAJOR has been assigned to 0 by default."
-    #define APP_VERSION_MAJOR   0
-#endif
-
-#ifndef APP_VERSION_MINOR
-    #warning "APP_VERSION_MINOR has been assigned to 0 by default."
-    #define APP_VERSION_MINOR   0
-#endif
-
-#ifndef HW_VERSION_MAJOR
-    #warning "HW_VERSION_MAJOR has been assigned to 0 by default."
-    #define HW_VERSION_MAJOR    0
-#endif
-
-#ifndef HW_VERSION_MINOR
-    #warning "HW_VERSION_MINOR has been assigned to 0 by default."
-    #define HW_VERSION_MINOR    0
-#endif
 
 IntegerDesc_t __attribute__((weak)) integer_desc_pool[] = {
     {"uavcan.node.id", 0, 100, 50, true, false},
@@ -198,10 +187,12 @@ int main() {
     DronecanSubscriber<RawCommand_t> raw_command_sub2;
     raw_command_sub2.init(&rc2_callback);
 
-    DronecanPeriodicPublisher<CircuitStatus_t> circuit_status(2.0f);
-    DronecanPeriodicPublisher<BatteryInfo_t> battery_info(1.0f);
+    libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);
+    libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
 
     while (platformSpecificGetTimeMs() < 50000) {
+        circuit_status.msg.voltage = 5.0;
+        battery_info.msg.voltage = 5.1;
         circuit_status.spinOnce();
         battery_info.spinOnce();
         uavcanSpinOnce();
