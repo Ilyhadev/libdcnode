@@ -32,6 +32,8 @@
 #undef UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_SIGNATURE
 #include "libdcnode/pub.hpp"
 
+// #include "libdcnode/sub.hpp"
+
 
 IntegerDesc_t __attribute__((weak)) integer_desc_pool[] = {
     {"uavcan.node.id", 0, 100, 50, true, false},
@@ -172,19 +174,19 @@ int main() {
         return init_res;
     }
 
-    DronecanSubscriber<LightsCommand_t> lights_command_sub;
+    DronecanSubscribe<LightsCommand_t> lights_command_sub;
     lights_command_sub.init(&lights_callback);
 
-    DronecanSubscriber<ArrayCommand_t> array_command_sub1;
+    DronecanSubscribe<ArrayCommand_t> array_command_sub1;
     array_command_sub1.init(&ac1_callback, &ac1_filter);
 
-    DronecanSubscriber<ArrayCommand_t> array_command_sub2;
+    DronecanSubscribe<ArrayCommand_t> array_command_sub2;
     array_command_sub2.init(&ac2_callback, &ac2_filter);
 
-    DronecanSubscriber<RawCommand_t> raw_command_sub1;
+    DronecanSubscribe<RawCommand_t> raw_command_sub1;
     raw_command_sub1.init(&rc1_callback);
 
-    DronecanSubscriber<RawCommand_t> raw_command_sub2;
+    DronecanSubscribe<RawCommand_t> raw_command_sub2;
     raw_command_sub2.init(&rc2_callback);
 
     libdcnode::DronecanPeriodicPub<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);

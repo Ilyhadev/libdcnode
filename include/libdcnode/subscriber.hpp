@@ -57,9 +57,9 @@ DEFINE_SUBSCRIBER_TRAITS(AhrsSolution_t,
                          dronecan_equipment_ahrs_solution_deserialize)
 
 template <typename MessageType>
-class DronecanSubscriber {
+class DronecanSubscribe {
 public:
-    DronecanSubscriber() = default;
+    DronecanSubscribe() = default;
 
     int8_t init(void (*callback)(const MessageType&), bool (*filter_)(const MessageType&)=nullptr) {
         user_callback = callback;
@@ -75,7 +75,7 @@ public:
             return;
         }
 
-        auto instance = static_cast<DronecanSubscriber*>(instances[transfer->sub_id]);
+        auto instance = static_cast<DronecanSubscribe*>(instances[transfer->sub_id]);
         if (instance == nullptr) {
             return;
         }
