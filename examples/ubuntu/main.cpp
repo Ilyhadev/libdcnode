@@ -187,8 +187,8 @@ int main() {
     DronecanSubscriber<RawCommand_t> raw_command_sub2;
     raw_command_sub2.init(&rc2_callback);
 
-    libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);
-    libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
+    libdcnode::DronecanPeriodicPub<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);
+    libdcnode::DronecanPeriodicPub<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
 
     while (platformSpecificGetTimeMs() < 50000) {
         circuit_status.msg.voltage = 5.0;

@@ -67,8 +67,8 @@ DEFINE_PUBLISHER_TRAITS(Hygrometer,         dronecan_sensors_hygrometer_hygromet
 DEFINE_PUBLISHER_TRAITS(LightsCommand_t,    dronecan_equipment_indication_lights_command_publish)
 DEFINE_PUBLISHER_TRAITS(RangeSensorMeasurement_t,
                                             dronecan_equipment_range_sensor_measurement_publish)
-DEFINE_PUBLISHER_TRAITS(VibrationMeasurement_t,
-                        dronecan_com_rl_vibration_measurement_publish)
+DEFINE_PUBLISHER_TRAITS(Mpu_vibration,
+                                            dronecan_mpu_vibration_publish)
 
 template <typename MessageType>
 class DronecanPublisher {
