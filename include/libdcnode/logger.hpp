@@ -7,7 +7,7 @@
 #define LIBDCNODE_LOGGER_HPP_
 
 #include <cstdio>
-#include "libdcnode/uavcan/protocol/debug/LogMessage.h"
+#include "libdcnode/legacy/uavcan/protocol/debug/LogMessage.h"
 
 class DronecanLogger {
 public:

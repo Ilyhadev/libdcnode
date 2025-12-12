@@ -7,11 +7,11 @@
 
 #include "libdcnode/dronecan.h"
 #include <string.h>
-#include "libdcnode/uavcan/protocol/get_transport_stats.h"
-#include "libdcnode/uavcan/protocol/node_status.h"
-#include "libdcnode/uavcan/protocol/restart_node.h"
-#include "libdcnode/uavcan/protocol/param/execute_opcode.h"
-#include "libdcnode/uavcan/protocol/param/getset.h"
+#include "libdcnode/legacy/uavcan/protocol/get_transport_stats.h"
+#include "libdcnode/legacy/uavcan/protocol/node_status.h"
+#include "libdcnode/legacy/uavcan/protocol/restart_node.h"
+#include "libdcnode/legacy/uavcan/protocol/param/execute_opcode.h"
+#include "libdcnode/legacy/uavcan/protocol/param/getset.h"
 #include "libdcnode/can_driver.h"
 
 #ifndef MAX_PARAM_NAME_LENGTH

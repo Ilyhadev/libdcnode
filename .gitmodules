@@ -1,3 +1,6 @@
 [submodule "Libs/dronecan_dsdlc"]
 	path = Libs/dronecan_dsdlc
 	url = git@github.com:dronecan/dronecan_dsdlc.git
+[submodule "Libs/DSDL"]
+	path = Libs/DSDL
+	url = git@github.com:dronecan/DSDL.git

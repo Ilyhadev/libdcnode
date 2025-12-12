@@ -11,14 +11,14 @@
 #include <stdint.h>
 #include <array>
 #include "libdcnode/dronecan.h"
-#include "libdcnode/uavcan/equipment/esc/RawCommand.h"
-#include "libdcnode/uavcan/equipment/actuator/ArrayCommand.h"
-#include "libdcnode/uavcan/equipment/indication/BeepCommand.h"
-#include "libdcnode/uavcan/equipment/indication/LightsCommand.h"
-#include "libdcnode/uavcan/equipment/power/CircuitStatus.h"
-#include "libdcnode/uavcan/equipment/safety/ArmingStatus.h"
-#include "libdcnode/uavcan/equipment/ahrs/Solution.h"
-#include "libdcnode/uavcan/equipment/hardpoint/Command.h"
+#include "libdcnode/legacy/uavcan/equipment/esc/RawCommand.h"
+#include "libdcnode/legacy/uavcan/equipment/actuator/ArrayCommand.h"
+#include "libdcnode/legacy/uavcan/equipment/indication/BeepCommand.h"
+#include "libdcnode/legacy/uavcan/equipment/indication/LightsCommand.h"
+#include "libdcnode/legacy/uavcan/equipment/power/CircuitStatus.h"
+#include "libdcnode/legacy/uavcan/equipment/safety/ArmingStatus.h"
+#include "libdcnode/legacy/uavcan/equipment/ahrs/Solution.h"
+#include "libdcnode/legacy/uavcan/equipment/hardpoint/Command.h"
 
 template <typename MessageType>
 struct DronecanSubscriberTraits;

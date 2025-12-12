@@ -11,8 +11,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "libdcnode/internal.h"
-#include "libdcnode/uavcan/protocol/node_status.h"
-#include "libdcnode/uavcan/protocol/get_node_info.h"
+#include "libdcnode/legacy/uavcan/protocol/node_status.h"
+#include "libdcnode/legacy/uavcan/protocol/get_node_info.h"
 #include "params.h"
 #include "version.h"
 
