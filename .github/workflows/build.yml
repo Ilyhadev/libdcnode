@@ -21,8 +21,11 @@ jobs:
       - name: Install
         run: |
           sudo apt-get install -y make gcc-multilib g++-multilib linux-modules-extra-$(uname -r)
+          python3 -m venv .venv && source ".venv/bin/activate"
+          pip install -r requirements.txt
 
       - name: Build and run SITL
         run: |
           ./scripts/vcan.sh slcan0
+          source ".venv/bin/activate"
           make ${{ matrix.target }}
