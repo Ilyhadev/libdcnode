@@ -15,6 +15,23 @@
 #include "libdcnode/subscriber.hpp"
 #include "libdcnode/publisher.hpp"
 
+// Hack
+// It's ok to keep some undefs for now, but maybe there is a better solution;
+// This hack won't be necessary after removing legacy serialization
+#undef UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ACTUATOR_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_AHRS_SOLUTION_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ESC_RAWCOMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_HARDPOINT_COMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_SIGNATURE
+#undef UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ESC_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_GNSS_FIX2_SIGNATURE
+#undef UAVCAN_EQUIPMENT_HARDPOINT_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_ICE_RECIPROCATING_STATUS_SIGNATURE
+#undef UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_SIGNATURE
+#include "libdcnode/pub.hpp"
+
 #ifndef GIT_HASH
     #warning "GIT_HASH has been assigned to 0 by default."
     #define GIT_HASH            (uint64_t)0
@@ -198,8 +215,8 @@ int main() {
     DronecanSubscriber<RawCommand_t> raw_command_sub2;
     raw_command_sub2.init(&rc2_callback);
 
-    DronecanPeriodicPublisher<CircuitStatus_t> circuit_status(2.0f);
-    DronecanPeriodicPublisher<BatteryInfo_t> battery_info(1.0f);
+    libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);
+    libdcnode::DronecanPeriodicPublisher<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
 
     while (platformSpecificGetTimeMs() < 50000) {
         circuit_status.spinOnce();
