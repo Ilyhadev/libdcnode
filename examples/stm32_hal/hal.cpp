@@ -7,22 +7,24 @@
 
 #include <iostream>
 #include <string.h>
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 
-void platformSpecificReadUniqueID(uint8_t out_uid[4]) {
+void platformSpecificReadUniqueID(uint8_t out_uid[4])
+{
     const uint32_t UNIQUE_ID_16_BYTES[4] = {
         HAL_GetUIDw0(),
         HAL_GetUIDw1(),
         HAL_GetUIDw2(),
-        0
-    };
+        0};
     memset(out_uid, UNIQUE_ID_16_BYTES, 16);
 }
 
-bool platformSpecificRequestRestart() {
+bool platformSpecificRequestRestart()
+{
     return false;
 }
 
-uint32_t platformSpecificGetTimeMs() {
+uint32_t platformSpecificGetTimeMs()
+{
     return HAL_GetTick();
 }

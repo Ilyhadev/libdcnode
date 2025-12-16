@@ -12,7 +12,8 @@
 #include <algorithm>
 #include <type_traits>
 #include <utility>
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
+#include "libdcnode/platform.hpp"
 #include "dronecan_msgs.h"
 
 // Max encoded message size (bytes) for publisher stack buffer.
@@ -27,9 +28,6 @@
 #ifndef LIBDCNODE_INITIAL_PUB_DELAY_MS
 #define LIBDCNODE_INITIAL_PUB_DELAY_MS 500U
 #endif
-
-// @todo we should not make it global; retrieve it from the library itself later
-extern PlatformApi platform;
 
 namespace libdcnode
 {
@@ -85,7 +83,7 @@ namespace libdcnode
 
         inline void spinOnce()
         {
-            auto crnt_time_ms = platform.getTimeMs();
+            auto crnt_time_ms = libdcnode::getPlatformApi().getTimeMs();
             if (crnt_time_ms < _next_pub_time_ms)
             {
                 return;

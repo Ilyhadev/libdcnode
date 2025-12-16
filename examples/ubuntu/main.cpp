@@ -10,7 +10,7 @@
 #include <chrono>
 #include <string.h>
 #include "storage.h"
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 #include "libdcnode/can_driver.h"
 // #include "libdcnode/subscriber.hpp"
 // #include "libdcnode/publisher.hpp"
@@ -139,6 +139,7 @@ void lights_callback(const uavcan_equipment_indication_LightsCommand &msg)
  */
 int main()
 {
+
     paramsInit(1, 1, -1, 1);
     paramsResetToDefault();
     ParamsApi params_api = {
@@ -212,7 +213,9 @@ int main()
     {
         circuit_status.msg.voltage = 5.0;
         battery_info.msg.voltage = 5.1;
+
         circuit_status.spinOnce();
+
         battery_info.spinOnce();
         uavcanSpinOnce();
     }

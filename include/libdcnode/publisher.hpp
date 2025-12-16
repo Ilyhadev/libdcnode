@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <algorithm>
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 #include "libdcnode/legacy/uavcan/equipment/actuator/Status.h"
 #include "libdcnode/legacy/uavcan/equipment/ahrs/MagneticFieldStrength2.h"
 #include "libdcnode/legacy/uavcan/equipment/ahrs/RawImu.h"
@@ -32,8 +32,6 @@
 #include "libdcnode/legacy/uavcan/equipment/indication/LightsCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/range_sensor/Measurement.h"
 #include "libdcnode/legacy/uavcan/com/rl/vibration/Measurement.h"
-
-extern PlatformApi platform;
 
 template <typename MessageType>
 struct DronecanPublisherTraits;
@@ -99,7 +97,7 @@ public:
 
     inline void spinOnce()
     {
-        auto crnt_time_ms = platform.getTimeMs();
+        auto crnt_time_ms = libdcnode::getPlatformApi().getTimeMs();
         if (crnt_time_ms < next_pub_time_ms)
         {
             return;

@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <array>
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 #include "dronecan_msgs.h"
 
 // Max encoded message size (bytes) for subscriber stack buffer.
@@ -25,9 +25,6 @@
 #ifndef LIBDCNODE_INITIAL_SUB_DELAY_MS
 #define LIBDCNODE_INITIAL_SUB_DELAY_MS 500U
 #endif
-
-// @todo we should not make it global; retrieve it from the library itself later
-extern PlatformApi platform;
 
 namespace libdcnode
 {

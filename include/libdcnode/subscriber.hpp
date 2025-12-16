@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <array>
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 #include "libdcnode/legacy/uavcan/equipment/esc/RawCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/actuator/ArrayCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/indication/BeepCommand.h"
@@ -23,16 +23,19 @@
 template <typename MessageType>
 struct DronecanSubscriberTraits;
 
-#define DEFINE_SUBSCRIBER_TRAITS(MessageType, SubscribeFunction, DeserializeFunction) \
-template <> \
-struct DronecanSubscriberTraits<MessageType> { \
-    static inline int8_t subscribe(void (*callback)(CanardRxTransfer*)) { \
-        return SubscribeFunction(callback); \
-    } \
-    static inline int8_t deserialize(CanardRxTransfer* transfer, MessageType* msg) { \
-        return DeserializeFunction(transfer, msg); \
-    } \
-};
+#define DEFINE_SUBSCRIBER_TRAITS(MessageType, SubscribeFunction, DeserializeFunction)  \
+    template <>                                                                        \
+    struct DronecanSubscriberTraits<MessageType>                                       \
+    {                                                                                  \
+        static inline int8_t subscribe(void (*callback)(CanardRxTransfer *))           \
+        {                                                                              \
+            return SubscribeFunction(callback);                                        \
+        }                                                                              \
+        static inline int8_t deserialize(CanardRxTransfer *transfer, MessageType *msg) \
+        {                                                                              \
+            return DeserializeFunction(transfer, msg);                                 \
+        }                                                                              \
+    };
 
 DEFINE_SUBSCRIBER_TRAITS(RawCommand_t,
                          uavcanSubscribeEscRawCommand,
@@ -57,11 +60,13 @@ DEFINE_SUBSCRIBER_TRAITS(AhrsSolution_t,
                          dronecan_equipment_ahrs_solution_deserialize)
 
 template <typename MessageType>
-class DronecanSubscribe {
+class DronecanSubscribe
+{
 public:
     DronecanSubscribe() = default;
 
-    int8_t init(void (*callback)(const MessageType&), bool (*filter_)(const MessageType&)=nullptr) {
+    int8_t init(void (*callback)(const MessageType &), bool (*filter_)(const MessageType &) = nullptr)
+    {
         user_callback = callback;
         filter = filter_;
         auto sub_id = DronecanSubscriberTraits<MessageType>::subscribe(transfer_callback);
@@ -69,28 +74,32 @@ public:
         return sub_id;
     }
 
-    static inline void transfer_callback(CanardRxTransfer* transfer) {
+    static inline void transfer_callback(CanardRxTransfer *transfer)
+    {
         int8_t res = DronecanSubscriberTraits<MessageType>::deserialize(transfer, &msg);
-        if (res < 0) {
+        if (res < 0)
+        {
             return;
         }
 
-        auto instance = static_cast<DronecanSubscribe*>(instances[transfer->sub_id]);
-        if (instance == nullptr) {
+        auto instance = static_cast<DronecanSubscribe *>(instances[transfer->sub_id]);
+        if (instance == nullptr)
+        {
             return;
         }
 
-        if (instance->filter != nullptr && !instance->filter(msg)) {
+        if (instance->filter != nullptr && !instance->filter(msg))
+        {
             return;
         }
 
         instance->user_callback(msg);
     }
 
-    static inline std::array<void*, DRONECAN_MAX_SUBS_NUMBER> instances{};
+    static inline std::array<void *, DRONECAN_MAX_SUBS_NUMBER> instances{};
     static inline MessageType msg = {};
-    void (*user_callback)(const MessageType&){nullptr};
-    bool (*filter)(const MessageType&){nullptr};
+    void (*user_callback)(const MessageType &){nullptr};
+    bool (*filter)(const MessageType &){nullptr};
 };
 
-#endif  // LIBDCNODE_SUBSCRIBER_HPP_
+#endif // LIBDCNODE_SUBSCRIBER_HPP_

@@ -78,11 +78,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 **1. Initialize**
 
-Include `dronecan.h` header and call `uavcanInitApplication` in the beginning of the application. Call `uavcanSpinOnce` periodically.
+Include `dronecan.hpp` header and call `uavcanInitApplication` in the beginning of the application. Call `uavcanSpinOnce` periodically.
 
 ```c++
-// Include dronecan.h header file
-#include "libdcnode/dronecan.h"
+// Include dronecan.hpp header file
+#include "libdcnode/dronecan.hpp"
 
 // Initialize the library somewhere
 const uint8_t node_id = 42;
@@ -104,7 +104,7 @@ while (true) {
 Adding a publisher is very easy. Include `publisher.hpp` header, create an instance of the required publisher and just call `publish` when you need. Here is a BatteryInfo publisher example:
 
 ```c++
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 #include "libdcnode/publisher.hpp"
 
 // Create an instance of the publisher
@@ -136,7 +136,7 @@ Adding a subscriber is easy as well. Let's consider a RawCommand subscriber exam
 
 ```c++
 // Include necessary header files
-#include "libdcnode/dronecan.h"
+#include "libdcnode/dronecan.hpp"
 #include "libdcnode/subscriber.hpp"
 
 // Add a callback handler function
