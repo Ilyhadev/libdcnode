@@ -12,8 +12,8 @@
 #include "storage.h"
 #include "libdcnode/dronecan.h"
 #include "libdcnode/can_driver.h"
-#include "libdcnode/subscriber.hpp"
-#include "libdcnode/publisher.hpp"
+// #include "libdcnode/subscriber.hpp"
+// #include "libdcnode/publisher.hpp"
 
 // Hack
 // It's ok to keep some undefs for now, but maybe there is a better solution;
@@ -32,8 +32,7 @@
 #undef UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_SIGNATURE
 #include "libdcnode/pub.hpp"
 
-// #include "libdcnode/sub.hpp"
-
+#include "libdcnode/sub.hpp"
 
 IntegerDesc_t __attribute__((weak)) integer_desc_pool[] = {
     {"uavcan.node.id", 0, 100, 50, true, false},
@@ -45,84 +44,101 @@ StringDesc_t __attribute__((weak)) string_desc_pool[] = {
 };
 StringParamValue_t string_values_pool[sizeof(string_desc_pool) / sizeof(StringDesc_t)];
 
-bool paramsIsInteger(ParamIndex_t param_idx) {
+bool paramsIsInteger(ParamIndex_t param_idx)
+{
     return paramsGetType(param_idx) == PARAM_TYPE_INTEGER;
 }
-bool paramsIsString(ParamIndex_t param_idx) {
+bool paramsIsString(ParamIndex_t param_idx)
+{
     return paramsGetType(param_idx) == PARAM_TYPE_STRING;
 }
-IntegerParamValue_t paramsGetIntegerMin(ParamIndex_t param_idx) {
+IntegerParamValue_t paramsGetIntegerMin(ParamIndex_t param_idx)
+{
     auto desc = paramsGetIntegerDesc(param_idx);
     return desc != nullptr ? desc->min : 0;
 }
-IntegerParamValue_t paramsGetIntegerMax(ParamIndex_t param_idx) {
+IntegerParamValue_t paramsGetIntegerMax(ParamIndex_t param_idx)
+{
     auto desc = paramsGetIntegerDesc(param_idx);
     return desc != nullptr ? desc->max : 0;
 }
-IntegerParamValue_t paramsGetIntegerDef(ParamIndex_t param_idx) {
+IntegerParamValue_t paramsGetIntegerDef(ParamIndex_t param_idx)
+{
     auto desc = paramsGetIntegerDesc(param_idx);
     return desc != nullptr ? desc->def : 0;
 }
 
-
 /**
  * @brief Platform specific functions which should be provided by a user
  */
-uint32_t platformSpecificGetTimeMs() {
+uint32_t platformSpecificGetTimeMs()
+{
     static auto start_time = std::chrono::high_resolution_clock::now();
     auto crnt_time = std::chrono::high_resolution_clock::now();
     return std::chrono::duration_cast<std::chrono::milliseconds>(crnt_time - start_time).count();
 }
-bool platformSpecificRequestRestart() {
+bool platformSpecificRequestRestart()
+{
     return false;
 }
-void platformSpecificReadUniqueID(uint8_t out_uid[16]) {
+void platformSpecificReadUniqueID(uint8_t out_uid[16])
+{
     memset(out_uid, 0x00, 16);
 }
-
 
 /**
  * @brief Application specific functions
  */
-void rc1_callback(const RawCommand_t& msg) {
-    std::cout << "Get RawCommand 1 with " << (int)msg.size << " commands." << std::endl;
+void rc1_callback(const uavcan_equipment_esc_RawCommand &msg)
+{
+    std::cout << "Get RawCommand 1 with " << (int)msg.cmd.len << " commands." << std::endl;
 }
-void rc2_callback(const RawCommand_t& msg) {
-    std::cout << "Get RawCommand 2 with " << (int)msg.size << " commands." << std::endl;
+void rc2_callback(const uavcan_equipment_esc_RawCommand &msg)
+{
+    std::cout << "Get RawCommand 2 with " << (int)msg.cmd.len << " commands." << std::endl;
 }
 
-void ac1_callback(const ArrayCommand_t& msg) {
-    std::cout << "Get ArrayCommand_t1 with " << msg.size << "commands." << std::endl;
+void ac1_callback(const uavcan_equipment_actuator_ArrayCommand &msg)
+{
+    std::cout << "Get ArrayCommand_t1 with " << msg.commands.len << "commands." << std::endl;
 }
-void ac2_callback(const ArrayCommand_t& msg) {
-    std::cout << "Get ArrayCommand_t2 with " << msg.size << "commands." << std::endl;
+void ac2_callback(const uavcan_equipment_actuator_ArrayCommand &msg)
+{
+    std::cout << "Get ArrayCommand_t2 with " << msg.commands.len << "commands." << std::endl;
 }
-bool ac1_filter(const ArrayCommand_t& msg) {
-    for (size_t idx = 0; idx < msg.size; idx++) {
-        if (msg.commads[idx].actuator_id == 0) {
+bool ac1_filter(const uavcan_equipment_actuator_ArrayCommand &msg)
+{
+    for (size_t idx = 0; idx < msg.commands.len; idx++)
+    {
+        if (msg.commands.data[idx].actuator_id == 0)
+        {
             return true;
         }
     }
     return false;
 }
-bool ac2_filter(const ArrayCommand_t& msg) {
-    for (size_t idx = 0; idx < msg.size; idx++) {
-        if (msg.commads[idx].actuator_id == 1) {
+bool ac2_filter(const uavcan_equipment_actuator_ArrayCommand &msg)
+{
+    for (size_t idx = 0; idx < msg.commands.len; idx++)
+    {
+        if (msg.commands.data[idx].actuator_id == 1)
+        {
             return true;
         }
     }
     return false;
 }
 
-void lights_callback(const LightsCommand_t& msg) {
-    std::cout << "Get LightsCommand_t with " << msg.number_of_commands << " commands." << std::endl;
+void lights_callback(const uavcan_equipment_indication_LightsCommand &msg)
+{
+    std::cout << "Get LightsCommand_t with " << msg.commands.len << " commands." << std::endl;
 }
-
 
 /**
  * @brief Main application entry point
  */
-int main() {
+int main()
+{
     paramsInit(1, 1, -1, 1);
     paramsResetToDefault();
     ParamsApi params_api = {
@@ -155,8 +171,7 @@ int main() {
             .send = canDriverTransmit,
             .getRxOverflowCount = canDriverGetRxOverflowCount,
             .getErrorCount = canDriverGetErrorCount,
-        }
-    };
+        }};
 
     AppInfo app_info{
         .node_id = static_cast<uint8_t>(paramsGetIntegerValue(0)),
@@ -169,30 +184,32 @@ int main() {
     };
 
     auto init_res = uavcanInitApplication(params_api, platform_api, &app_info);
-    if (init_res < 0) {
+    if (init_res < 0)
+    {
         std::cout << "CAN interface could not be found. Exit with code " << init_res << std::endl;
         return init_res;
     }
 
-    DronecanSubscribe<LightsCommand_t> lights_command_sub;
+    libdcnode::DronecanSub<uavcan_equipment_indication_LightsCommand> lights_command_sub;
     lights_command_sub.init(&lights_callback);
 
-    DronecanSubscribe<ArrayCommand_t> array_command_sub1;
+    libdcnode::DronecanSub<uavcan_equipment_actuator_ArrayCommand> array_command_sub1;
     array_command_sub1.init(&ac1_callback, &ac1_filter);
 
-    DronecanSubscribe<ArrayCommand_t> array_command_sub2;
+    libdcnode::DronecanSub<uavcan_equipment_actuator_ArrayCommand> array_command_sub2;
     array_command_sub2.init(&ac2_callback, &ac2_filter);
 
-    DronecanSubscribe<RawCommand_t> raw_command_sub1;
+    libdcnode::DronecanSub<uavcan_equipment_esc_RawCommand> raw_command_sub1;
     raw_command_sub1.init(&rc1_callback);
 
-    DronecanSubscribe<RawCommand_t> raw_command_sub2;
+    libdcnode::DronecanSub<uavcan_equipment_esc_RawCommand> raw_command_sub2;
     raw_command_sub2.init(&rc2_callback);
 
     libdcnode::DronecanPeriodicPub<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);
     libdcnode::DronecanPeriodicPub<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
 
-    while (platformSpecificGetTimeMs() < 50000) {
+    while (platformSpecificGetTimeMs() < 50000)
+    {
         circuit_status.msg.voltage = 5.0;
         battery_info.msg.voltage = 5.1;
         circuit_status.spinOnce();

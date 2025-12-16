@@ -8,10 +8,8 @@
 #ifndef LIBDCNODE_SUB_HPP_
 #define LIBDCNODE_SUB_HPP_
 
-#include <cstdint>
-#include <algorithm>
-#include <type_traits>
-#include <utility>
+#include <stdint.h>
+#include <array>
 #include "libdcnode/dronecan.h"
 #include "dronecan_msgs.h"
 
@@ -31,69 +29,82 @@
 // @todo we should not make it global; retrieve it from the library itself later
 extern PlatformApi platform;
 
-namespace libdcnode {
+namespace libdcnode
+{
 
-template <typename MessageType>
-struct DronecanSubscriberTraits;
+    template <typename MessageType>
+    struct DronecanSubscriberTraits;
 
-#define LIBDCNODE_DEFINE_SUB_TRAITS(MessageType, Prefix) \
-template <> \
-struct DronecanSubscriberTraits<MessageType> { \
-    static inline int8_t subscribe(void (*callback)(CanardRxTransfer*)) { \
-        return uavcanSubscribe(Prefix##_SIGNATURE,Prefix##_ID, callback); \
-    } \
-    static inline int8_t deserialize(CanardRxTransfer* transfer, MessageType* msg) { \
-        return Prefix##_decode(transfer, 0, msg, false); \
-    } \
-};
+#define LIBDCNODE_DEFINE_SUB_TRAITS(MessageType, Prefix)                               \
+    template <>                                                                        \
+    struct DronecanSubscriberTraits<MessageType>                                       \
+    {                                                                                  \
+        static inline int8_t subscribe(void (*callback)(CanardRxTransfer *))           \
+        {                                                                              \
+            return uavcanSubscribe(Prefix##_SIGNATURE, Prefix##_ID, callback);         \
+        }                                                                              \
+        static inline int8_t deserialize(CanardRxTransfer *transfer, MessageType *msg) \
+        {                                                                              \
+            return MessageType##_decode(transfer, msg);                                \
+        }                                                                              \
+    };
 
-LIBDCNODE_DEFINE_SUB_TRAITS(::uavcan_equipment_esc_RawCommand,
-                         UAVCAN_EQUIPMENT_ESC_RAWCOMMAND)
+    LIBDCNODE_DEFINE_SUB_TRAITS(::uavcan_equipment_esc_RawCommand,
+                                UAVCAN_EQUIPMENT_ESC_RAWCOMMAND)
 
-LIBDCNODE_DEFINE_SUB_TRAITS(::uavcan_equipment_hardpoint_Command,
-                         UAVCAN_EQUIPMENT_HARDPOINT_COMMAND)
+    LIBDCNODE_DEFINE_SUB_TRAITS(::uavcan_equipment_hardpoint_Command,
+                                UAVCAN_EQUIPMENT_HARDPOINT_COMMAND)
 
+    LIBDCNODE_DEFINE_SUB_TRAITS(::uavcan_equipment_indication_LightsCommand, UAVCAN_EQUIPMENT_INDICATION_LIGHTSCOMMAND)
 
-template <typename MessageType>
-class DronecanSub {
-public:
-    DronecanSub() = default;
+    LIBDCNODE_DEFINE_SUB_TRAITS(::uavcan_equipment_actuator_ArrayCommand, UAVCAN_EQUIPMENT_ACTUATOR_ARRAYCOMMAND)
 
-    int8_t init(void (*callback)(const MessageType&), bool (*filter_)(const MessageType&)=nullptr) {
-        user_callback = callback;
-        filter = filter_;
-        auto sub_id = DronecanSubscriberTraits<MessageType>::subscribe(transfer_callback);
-        instances[sub_id] = this;
-        return sub_id;
-    }
+    template <typename MessageType>
+    class DronecanSub
+    {
+    public:
+        DronecanSub() = default;
 
-    static inline void transfer_callback(CanardRxTransfer* transfer) {
-        int8_t res = DronecanSubscriberTraits<MessageType>::deserialize(transfer, &msg);
-        if (res < 0) {
-            return;
+        int8_t init(void (*callback)(const MessageType &), bool (*filter_)(const MessageType &) = nullptr)
+        {
+            user_callback = callback;
+            filter = filter_;
+            auto sub_id = DronecanSubscriberTraits<MessageType>::subscribe(transfer_callback);
+            instances[sub_id] = this;
+            return sub_id;
         }
 
-        auto instance = static_cast<DronecanSub*>(instances[transfer->sub_id]);
-        if (instance == nullptr) {
-            return;
+        static inline void transfer_callback(CanardRxTransfer *transfer)
+        {
+            int8_t res = DronecanSubscriberTraits<MessageType>::deserialize(transfer, &msg);
+            if (res < 0)
+            {
+                return;
+            }
+
+            auto instance = static_cast<DronecanSub *>(instances[transfer->sub_id]);
+            if (instance == nullptr)
+            {
+                return;
+            }
+
+            if (instance->filter != nullptr && !instance->filter(msg))
+            {
+                return;
+            }
+
+            instance->user_callback(msg);
         }
 
-        if (instance->filter != nullptr && !instance->filter(msg)) {
-            return;
-        }
+        static inline std::array<void *, DRONECAN_MAX_SUBS_NUMBER> instances{};
+        static inline MessageType msg = {};
+        void (*user_callback)(const MessageType &){nullptr};
+        bool (*filter)(const MessageType &){nullptr};
+    };
 
-        instance->user_callback(msg);
-    }
-
-    static inline std::array<void*, DRONECAN_MAX_SUBS_NUMBER> instances{};
-    static inline MessageType msg = {};
-    void (*user_callback)(const MessageType&){nullptr};
-    bool (*filter)(const MessageType&){nullptr};
-};
-
-}  // namespace libdcnode
+} // namespace libdcnode
 
 // Undef internal macros
 #undef LIBDCNODE_DEFINE_SUB_TRAITS
 
-#endif  // LIBDCNODE_SUB_HPP_
+#endif // LIBDCNODE_SUB_HPP_
