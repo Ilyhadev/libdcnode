@@ -38,64 +38,70 @@ extern PlatformApi platform;
 template <typename MessageType>
 struct DronecanPublisherTraits;
 
-#define DEFINE_PUBLISHER_TRAITS(MessageType, PublishFunction) \
-template <> \
-struct DronecanPublisherTraits<MessageType> { \
-    static inline int8_t publish_once(const MessageType& msg, uint8_t* inout_transfer_id) { \
-        return PublishFunction(&msg, inout_transfer_id); \
-    } \
-};
+#define DEFINE_PUBLISHER_TRAITS(MessageType, PublishFunction)                                 \
+    template <>                                                                               \
+    struct DronecanPublisherTraits<MessageType>                                               \
+    {                                                                                         \
+        static inline int8_t publish_once(const MessageType &msg, uint8_t *inout_transfer_id) \
+        {                                                                                     \
+            return PublishFunction(&msg, inout_transfer_id);                                  \
+        }                                                                                     \
+    };
 
-DEFINE_PUBLISHER_TRAITS(ActuatorStatus_t,   dronecan_equipment_actuator_status_publish)
+DEFINE_PUBLISHER_TRAITS(ActuatorStatus_t, dronecan_equipment_actuator_status_publish)
 DEFINE_PUBLISHER_TRAITS(MagneticFieldStrength2, dronecan_equipment_ahrs_magnetic_field_2_publish)
-DEFINE_PUBLISHER_TRAITS(AhrsRawImu,         dronecan_equipment_ahrs_raw_imu_publish)
-DEFINE_PUBLISHER_TRAITS(AhrsSolution_t,     dronecan_equipment_ahrs_solution_publish)
-DEFINE_PUBLISHER_TRAITS(IndicatedAirspeed,  dronecan_equipment_air_data_indicated_airspeed_publish)
-DEFINE_PUBLISHER_TRAITS(RawAirData_t,       dronecan_equipment_air_data_raw_air_data_publish)
-DEFINE_PUBLISHER_TRAITS(StaticPressure,     dronecan_equipment_air_data_static_pressure_publish)
-DEFINE_PUBLISHER_TRAITS(StaticTemperature,  dronecan_equipment_air_data_static_temperature_publish)
-DEFINE_PUBLISHER_TRAITS(TrueAirspeed,       dronecan_equipment_air_data_true_airspeed_publish)
-DEFINE_PUBLISHER_TRAITS(EscStatus_t,        dronecan_equipment_esc_status_publish)
-DEFINE_PUBLISHER_TRAITS(GnssFix2,           dronecan_equipment_gnss_fix2_publish)
-DEFINE_PUBLISHER_TRAITS(HardpointStatus,    dronecan_equipment_hardpoint_status_publish)
-DEFINE_PUBLISHER_TRAITS(FuelTankStatus_t,   dronecan_equipment_ice_fuel_tank_status_publish)
+DEFINE_PUBLISHER_TRAITS(AhrsRawImu, dronecan_equipment_ahrs_raw_imu_publish)
+DEFINE_PUBLISHER_TRAITS(AhrsSolution_t, dronecan_equipment_ahrs_solution_publish)
+DEFINE_PUBLISHER_TRAITS(IndicatedAirspeed, dronecan_equipment_air_data_indicated_airspeed_publish)
+DEFINE_PUBLISHER_TRAITS(RawAirData_t, dronecan_equipment_air_data_raw_air_data_publish)
+DEFINE_PUBLISHER_TRAITS(StaticPressure, dronecan_equipment_air_data_static_pressure_publish)
+DEFINE_PUBLISHER_TRAITS(StaticTemperature, dronecan_equipment_air_data_static_temperature_publish)
+DEFINE_PUBLISHER_TRAITS(TrueAirspeed, dronecan_equipment_air_data_true_airspeed_publish)
+DEFINE_PUBLISHER_TRAITS(EscStatus_t, dronecan_equipment_esc_status_publish)
+DEFINE_PUBLISHER_TRAITS(GnssFix2, dronecan_equipment_gnss_fix2_publish)
+DEFINE_PUBLISHER_TRAITS(HardpointStatus, dronecan_equipment_hardpoint_status_publish)
+DEFINE_PUBLISHER_TRAITS(FuelTankStatus_t, dronecan_equipment_ice_fuel_tank_status_publish)
 DEFINE_PUBLISHER_TRAITS(IceReciprocatingStatus, dronecan_equipment_ice_status_publish)
-DEFINE_PUBLISHER_TRAITS(CircuitStatus_t,    dronecan_equipment_circuit_status_publish)
-DEFINE_PUBLISHER_TRAITS(Temperature_t,      dronecan_equipment_temperature_publish)
-DEFINE_PUBLISHER_TRAITS(BatteryInfo_t,      dronecan_equipment_battery_info_publish)
-DEFINE_PUBLISHER_TRAITS(Hygrometer,         dronecan_sensors_hygrometer_hygrometer_publish)
-DEFINE_PUBLISHER_TRAITS(LightsCommand_t,    dronecan_equipment_indication_lights_command_publish)
+DEFINE_PUBLISHER_TRAITS(CircuitStatus_t, dronecan_equipment_circuit_status_publish)
+DEFINE_PUBLISHER_TRAITS(Temperature_t, dronecan_equipment_temperature_publish)
+DEFINE_PUBLISHER_TRAITS(BatteryInfo_t, dronecan_equipment_battery_info_publish)
+DEFINE_PUBLISHER_TRAITS(Hygrometer, dronecan_sensors_hygrometer_hygrometer_publish)
+DEFINE_PUBLISHER_TRAITS(LightsCommand_t, dronecan_equipment_indication_lights_command_publish)
 DEFINE_PUBLISHER_TRAITS(RangeSensorMeasurement_t,
-                                            dronecan_equipment_range_sensor_measurement_publish)
+                        dronecan_equipment_range_sensor_measurement_publish)
 DEFINE_PUBLISHER_TRAITS(Mpu_vibration,
-                                            dronecan_mpu_vibration_publish)
+                        dronecan_mpu_vibration_publish)
 
 template <typename MessageType>
-class DronecanPublisher {
+class DronecanPublisher
+{
 public:
     DronecanPublisher() = default;
 
-    inline void publish() {
+    inline void publish()
+    {
         DronecanPublisherTraits<MessageType>::publish_once(msg, &inout_transfer_id);
         inout_transfer_id++;
     }
 
     MessageType msg;
+
 private:
     uint8_t inout_transfer_id;
 };
 
-
 template <typename MessageType>
-class DronecanPeriodicPublisher : public DronecanPublisher<MessageType> {
+class DronecanPeriodicPublisher : public DronecanPublisher<MessageType>
+{
 public:
-    DronecanPeriodicPublisher(float frequency) :
-        DronecanPublisher<MessageType>(),
-        PUB_PERIOD_MS(static_cast<uint32_t>(1000.0f / std::clamp(frequency, 0.001f, 1000.0f))) {};
+    DronecanPeriodicPublisher(float frequency) : DronecanPublisher<MessageType>(),
+                                                 PUB_PERIOD_MS(static_cast<uint32_t>(1000.0f / std::clamp(frequency, 0.001f, 1000.0f))) {};
 
-    inline void spinOnce() {
+    inline void spinOnce()
+    {
         auto crnt_time_ms = platform.getTimeMs();
-        if (crnt_time_ms < next_pub_time_ms) {
+        if (crnt_time_ms < next_pub_time_ms)
+        {
             return;
         }
         next_pub_time_ms = crnt_time_ms + PUB_PERIOD_MS;
@@ -108,4 +114,4 @@ private:
     uint32_t next_pub_time_ms{500};
 };
 
-#endif  // LIBDCNODE_PUBLISHER_HPP_
+#endif // LIBDCNODE_PUBLISHER_HPP_

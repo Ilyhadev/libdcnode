@@ -16,7 +16,7 @@
 // Max encoded message size (bytes) for subscriber stack buffer.
 // Override via -DLIBDCNODE_MAX_SUB_MESSAGE_SIZE=... if your DSDL set requires more.
 #ifndef LIBDCNODE_MAX_SUB_MESSAGE_SIZE
-#define LIBDCNODE_MAX_SUB_MESSAGE_SIZE 250U
+#define LIBDCNODE_MAX_SUB_MESSAGE_SIZE 250
 #endif
 
 // Initial delay before first subscribe after boot/reset (ms).
