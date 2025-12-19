@@ -54,12 +54,7 @@ namespace libdcnode
         // Get the platform api (throws if not initialized)
         const PlatformApi &getPlatformApi() const
         {
-            if (!_initialized || _platform == nullptr)
-            {
-                throw std::runtime_error(
-                    "PlatformManager not initialized. "
-                    "Call PlatformManager::instance().init(api) first!");
-            }
+            assert(_initialized && _platform != nullptr);
             return *_platform;
         }
 

@@ -83,8 +83,8 @@ static bool shouldAcceptTransfer(const CanardInstance *ins,
                                  uint8_t source_node_id);
 static void onTransferReceived(CanardInstance *ins, CanardRxTransfer *transfer);
 static uint8_t uavcanProcessSending();
-static bool uavcanProcessReceiving();
-static void uavcanSpinNodeStatus();
+static bool uavcanProcessReceiving(uint32_t crnt_time_ms);
+static void uavcanSpinNodeStatus(uint32_t now_ms);
 
 static void uavcanProtocolGetNodeInfoHandle(CanardRxTransfer *transfer);
 static void uavcanProtocolParamGetSetHandle(CanardRxTransfer *transfer);

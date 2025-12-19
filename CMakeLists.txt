@@ -27,13 +27,19 @@ add_library(${PROJECT_NAME} STATIC
 )
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-target_include_directories(${PROJECT_NAME}
-    PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-        ${CMAKE_CURRENT_LIST_DIR}/Libs/libcanard_v0
-        ${CMAKE_CURRENT_LIST_DIR}/Libs
 
-        ${DSDL_OUT_DIR}/include
+
+target_include_directories(libdcnode PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}/Libs
+    ${DSDL_OUT_DIR}/include
+)
+
+
+set_source_files_properties(${SERIALIZATION_SOURCES}
+    PROPERTIES
+        LANGUAGE C
+        COMPILE_FLAGS "-Wno-switch-default -fno-strict-aliasing -Wno-undef"
 )
 target_compile_options(${PROJECT_NAME} PRIVATE
     $<$<CXX_COMPILER_ID:GNU,Clang,AppleClang>:-Wno-address-of-packed-member>

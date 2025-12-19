@@ -55,6 +55,8 @@ namespace libdcnode
 
     LIBDCNODE_DEFINE_PUB_TRAITS(::uavcan_equipment_power_CircuitStatus, UAVCAN_EQUIPMENT_POWER_CIRCUITSTATUS)
     LIBDCNODE_DEFINE_PUB_TRAITS(::uavcan_equipment_power_BatteryInfo, UAVCAN_EQUIPMENT_POWER_BATTERYINFO)
+    LIBDCNODE_DEFINE_PUB_TRAITS(::uavcan_equipment_ahrs_RawIMU, UAVCAN_EQUIPMENT_AHRS_RAWIMU)
+    LIBDCNODE_DEFINE_PUB_TRAITS(::uavcan_equipment_ahrs_MagneticFieldStrength2, UAVCAN_EQUIPMENT_AHRS_MAGNETICFIELDSTRENGTH2)
 
     template <typename MessageType>
     class DronecanPub

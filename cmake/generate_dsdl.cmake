@@ -30,3 +30,11 @@ if(_run_dsdlc)
 else()
     message(STATUS "DSDL output exists and is not empty, skipping generation: ${DSDL_OUT_DIR}")
 endif()
+
+file(GLOB_RECURSE _dc_gen_headers "${DSDL_OUT_DIR}/include/*.h")
+foreach(_h ${_dc_gen_headers})
+    file(READ  "${_h}" _txt)
+    string(REPLACE "#include <canard.h>" "#include \"libcanard_v0/canard.h\"" _txt "${_txt}")
+    file(WRITE "${_h}" "${_txt}")
+endforeach()
+
