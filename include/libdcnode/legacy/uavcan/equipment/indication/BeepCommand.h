@@ -10,7 +10,7 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_INDICATION_BEEPCOMMAND_ID 1080

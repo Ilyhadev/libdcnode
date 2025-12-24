@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <array>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/legacy/uavcan/equipment/esc/RawCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/actuator/ArrayCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/indication/BeepCommand.h"

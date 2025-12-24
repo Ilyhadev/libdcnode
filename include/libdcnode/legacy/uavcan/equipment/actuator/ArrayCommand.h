@@ -8,7 +8,7 @@
 #ifndef UAVCAN_EQUIPMENT_ACTUATOR_ARRAY_COMMAND_H_
 #define UAVCAN_EQUIPMENT_ACTUATOR_ARRAY_COMMAND_H_
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_ACTUATOR_COMMAND_SIGNATURE 0x8d9a6a920c1d616c

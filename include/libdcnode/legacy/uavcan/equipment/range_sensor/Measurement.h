@@ -7,7 +7,7 @@
 #define UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_H_
 
 #include "libdcnode/serialization_internal.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "../../CoarseOrientation.h"
 
 #define UAVCAN_EQUIPMENT_RANGE_SENSOR_MEASUREMENT_ID 1050

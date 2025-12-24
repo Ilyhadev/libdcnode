@@ -9,7 +9,7 @@
 #define UAVCAN_EQUIPMENT_AIR_DATA_TRUE_AIRSPEED_H_
 
 #include "libdcnode/serialization_internal.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 
 #define UAVCAN_EQUIPMENT_AIR_DATA_TRUE_AIRSPEED_ID 1020
 #define UAVCAN_EQUIPMENT_AIR_DATA_TRUE_AIRSPEED_SIGNATURE 0x306F69E0A591AFAAULL

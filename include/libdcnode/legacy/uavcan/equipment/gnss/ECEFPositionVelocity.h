@@ -8,7 +8,7 @@
 #ifndef UAVCAN_EQUIPMENT_GNSS_ECEFPOSITIONVELOCITY_H_
 #define UAVCAN_EQUIPMENT_GNSS_ECEFPOSITIONVELOCITY_H_
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_GNSS_ECEF_MESSAGE_SIZE 27 // (32*3+36*3+6)/8 + 1

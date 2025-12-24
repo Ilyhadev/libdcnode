@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string.h>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 
 void platformSpecificReadUniqueID(uint8_t out_uid[4])
 {

@@ -9,7 +9,7 @@
 #define DRONECAN_SENSORS_HYGROMETER_HYGROMETER_H_
 
 #include "libdcnode/serialization_internal.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 
 #define DRONECAN_SENSORS_HYGROMETER_HYGROMETER_ID 1032
 #define DRONECAN_SENSORS_HYGROMETER_HYGROMETER_SIGNATURE 0xCEB308892BF163E8ULL

@@ -8,7 +8,7 @@
 #ifndef UAVCAN_EQUIPMENT_AIR_DATA_STATIC_PRESSURE_H_
 #define UAVCAN_EQUIPMENT_AIR_DATA_STATIC_PRESSURE_H_
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_AIR_DATA_STATIC_PRESSURE_ID 1028

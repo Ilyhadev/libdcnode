@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <array>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "dronecan_msgs.h"
 
 // Max encoded message size (bytes) for subscriber stack buffer.

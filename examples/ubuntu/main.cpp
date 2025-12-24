@@ -10,7 +10,7 @@
 #include <chrono>
 #include <string.h>
 #include "storage.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/can_driver.h"
 // #include "libdcnode/subscriber.hpp"
 // #include "libdcnode/publisher.hpp"

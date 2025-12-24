@@ -9,7 +9,7 @@
 #define UAVCAN_EQUIPMENT_AIR_DATA_INDICATED_AIRSPEED_H_
 
 #include "libdcnode/serialization_internal.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 
 #define UAVCAN_EQUIPMENT_AIR_DATA_INDICATED_AIRSPEED_ID 1021
 #define UAVCAN_EQUIPMENT_AIR_DATA_INDICATED_AIRSPEED_SIGNATURE 0xA1892D72AB8945FULL

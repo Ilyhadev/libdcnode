@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <type_traits>
 #include <utility>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/platform.hpp"
 #include "dronecan_msgs.h"
 

@@ -5,7 +5,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include <string.h>
 #include "libdcnode/legacy/uavcan/protocol/get_transport_stats.h"
 #include "libdcnode/legacy/uavcan/protocol/node_status.h"
