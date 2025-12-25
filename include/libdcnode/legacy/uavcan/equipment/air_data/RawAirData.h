@@ -9,7 +9,7 @@
 #define UAVCAN_EQUIPMENT_AIR_DATA_RAWAIRDATA_H_
 
 #include "libdcnode/serialization_internal.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 
 #define UAVCAN_EQUIPMENT_AIR_DATA_RAW_AIR_DATA_ID 1027
 #define UAVCAN_EQUIPMENT_AIR_DATA_RAW_AIR_DATA_SIGNATURE 0xc77df38ba122f5da

@@ -7,7 +7,7 @@
 #define UAVCAN_COARCE_ORIENTATION_H_
 
 #include "libdcnode/serialization_internal.h"
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #define UAVCAN_COARSE_ORIENTATION_MESSAGE_SIZE 2
 
 /**

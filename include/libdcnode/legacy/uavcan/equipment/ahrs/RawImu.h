@@ -8,7 +8,7 @@
 #ifndef UAVCAN_EQUIPMENT_AHRS_RAW_IMU_H_
 #define UAVCAN_EQUIPMENT_AHRS_RAW_IMU_H_
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_AHRS_RAW_IMU_ID 1003

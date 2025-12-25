@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_DEVICE_TEMPERATURE_ID 1110

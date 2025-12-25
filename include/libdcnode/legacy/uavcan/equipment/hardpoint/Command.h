@@ -7,7 +7,7 @@
 #ifndef UAVCAN_EQUIPMENT_HARDPOINT_COMMAND_H_
 #define UAVCAN_EQUIPMENT_HARDPOINT_COMMAND_H_
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 
 #define UAVCAN_EQUIPMENT_HARDPOINT_COMMAND_ID 1070

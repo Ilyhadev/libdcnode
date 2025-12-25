@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <array>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/legacy/uavcan/equipment/esc/RawCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/actuator/ArrayCommand.h"
 #include "libdcnode/legacy/uavcan/equipment/indication/BeepCommand.h"
@@ -60,10 +60,10 @@ DEFINE_SUBSCRIBER_TRAITS(AhrsSolution_t,
                          dronecan_equipment_ahrs_solution_deserialize)
 
 template <typename MessageType>
-class DronecanSubscribe
+class DronecanSubscriber
 {
 public:
-    DronecanSubscribe() = default;
+    DronecanSubscriber() = default;
 
     int8_t init(void (*callback)(const MessageType &), bool (*filter_)(const MessageType &) = nullptr)
     {
@@ -82,7 +82,7 @@ public:
             return;
         }
 
-        auto instance = static_cast<DronecanSubscribe *>(instances[transfer->sub_id]);
+        auto instance = static_cast<DronecanSubscriber *>(instances[transfer->sub_id]);
         if (instance == nullptr)
         {
             return;

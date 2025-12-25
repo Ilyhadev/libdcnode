@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <algorithm>
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/legacy/uavcan/equipment/actuator/Status.h"
 #include "libdcnode/legacy/uavcan/equipment/ahrs/MagneticFieldStrength2.h"
 #include "libdcnode/legacy/uavcan/equipment/ahrs/RawImu.h"

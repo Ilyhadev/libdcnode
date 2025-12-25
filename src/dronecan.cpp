@@ -5,7 +5,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include <string.h>
 #include "libdcnode/legacy/uavcan/protocol/get_transport_stats.h"
 #include "libdcnode/legacy/uavcan/protocol/node_status.h"
@@ -83,8 +83,8 @@ static bool shouldAcceptTransfer(const CanardInstance *ins,
                                  uint8_t source_node_id);
 static void onTransferReceived(CanardInstance *ins, CanardRxTransfer *transfer);
 static uint8_t uavcanProcessSending();
-static bool uavcanProcessReceiving();
-static void uavcanSpinNodeStatus();
+static bool uavcanProcessReceiving(uint32_t crnt_time_ms);
+static void uavcanSpinNodeStatus(uint32_t now_ms);
 
 static void uavcanProtocolGetNodeInfoHandle(CanardRxTransfer *transfer);
 static void uavcanProtocolParamGetSetHandle(CanardRxTransfer *transfer);

@@ -8,7 +8,7 @@
 #ifndef UAVCAN_EQUIPMENT_GNSS_FIX2_H_
 #define UAVCAN_EQUIPMENT_GNSS_FIX2_H_
 
-#include "libdcnode/dronecan.hpp"
+#include "libdcnode/dronecan.h"
 #include "libdcnode/serialization_internal.h"
 #include "ECEFPositionVelocity.h"
 
