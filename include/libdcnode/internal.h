@@ -13,4 +13,4 @@
 
 #define UAVCAN_EXPAND(data_type) data_type##_SIGNATURE, data_type##_ID
 
-#endif  // LIBDCNODE_INTERNAL_H_
+#endif // LIBDCNODE_INTERNAL_H_

@@ -78,10 +78,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 **1. Initialize**
 
-Include `dronecan.h` header and call `uavcanInitApplication` in the beginning of the application. Call `uavcanSpinOnce` periodically.
+Include `dronecan.hpp` header and call `uavcanInitApplication` in the beginning of the application. Call `uavcanSpinOnce` periodically.
 
 ```c++
-// Include dronecan.h header file
+// Include dronecan.hpp header file
 #include "libdcnode/dronecan.h"
 
 // Initialize the library somewhere

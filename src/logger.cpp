@@ -4,7 +4,7 @@
 */
 
 #include "libdcnode/logger.hpp"
-#include "libdcnode/uavcan/protocol/debug/LogMessage.h"
+#include "libdcnode/legacy/uavcan/protocol/debug/LogMessage.h"
 
 DronecanLogger::DronecanLogger(const char* source) {
     init(source);
