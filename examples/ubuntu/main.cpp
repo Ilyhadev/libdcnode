@@ -190,22 +190,24 @@ int main()
         std::cout << "CAN interface could not be found. Exit with code " << init_res << std::endl;
         return init_res;
     }
-
+    int8_t sub_statuses = 0; 
     libdcnode::DronecanSub<uavcan_equipment_indication_LightsCommand> lights_command_sub;
-    lights_command_sub.init(&lights_callback);
+    sub_statuses += lights_command_sub.init(&lights_callback);
 
     libdcnode::DronecanSub<uavcan_equipment_actuator_ArrayCommand> array_command_sub1;
-    array_command_sub1.init(&ac1_callback, &ac1_filter);
+    sub_statuses += array_command_sub1.init(&ac1_callback, &ac1_filter);
 
     libdcnode::DronecanSub<uavcan_equipment_actuator_ArrayCommand> array_command_sub2;
-    array_command_sub2.init(&ac2_callback, &ac2_filter);
+    sub_statuses += array_command_sub2.init(&ac2_callback, &ac2_filter);
 
     libdcnode::DronecanSub<uavcan_equipment_esc_RawCommand> raw_command_sub1;
-    raw_command_sub1.init(&rc1_callback);
+    sub_statuses += raw_command_sub1.init(&rc1_callback);
 
     libdcnode::DronecanSub<uavcan_equipment_esc_RawCommand> raw_command_sub2;
-    raw_command_sub2.init(&rc2_callback);
-
+    sub_statuses += raw_command_sub2.init(&rc2_callback);
+    if (sub_statuses < 0) {
+        std::cerr << "One of subscribers was not initialized";
+    }
     libdcnode::DronecanPeriodicPub<uavcan_equipment_power_CircuitStatus> circuit_status(2.0f);
     libdcnode::DronecanPeriodicPub<uavcan_equipment_power_BatteryInfo> battery_info(1.0f);
 
